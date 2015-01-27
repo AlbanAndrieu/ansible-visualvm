@@ -1,0 +1,59 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: visualvm | Check user exists
+  user: name={{visualvm_owner}} state=present
+
+- name: visualvm | Check user home directory
+  stat: path={{visualvm_owner_home}}
+  register: home_present
+  
+- name: visualvm | Create temporary directory
+  shell: mktemp -d
+  register: tempdir
+  sudo: true
+  tags: visualvm_setup
+
+- name: visualvm | Install unzip
+  apt:
+    pkg=unzip
+    state="present"
+  tags: visualvm_setup
+
+#visualvm plugins standard
+- name: visualvm | Download visualvm
+  get_url:
+    url="{{ visualvm_url }}"
+    dest="{{ visualvm_dir_tmp }}/"
+  register: visualvm_download
+  tags: visualvm_setup
+
+- name: visualvm | Create base directory
+  file:
+    dest="{{visualvm_base_dir}}"
+    state=directory
+    owner="{{visualvm_owner}}"
+    group="{{visualvm_group}}"
+  sudo : yes
+  when: visualvm_download.changed
+  tags: visualvm_setup
+  
+- name: visualvm | Extract archive visualvm
+  command: chdir={{ visualvm_base_dir }}  /usr/bin/unzip -o -q {{ visualvm_dir_tmp }}/{{ visualvm_archive }}
+  when: visualvm_download.changed
+  tags: visualvm_setup
+
+#- name: visualvm | Configure visualvm
+#  template: src=visualvm.properties.j2 dest={{visualvm_configuration}}
+#  register: visualvm_configure
+
+#- name: visualvm | Ensure visualvm restarted
+#  service: name=visualvm state=restarted
+#  when: visualvm_configure.changed
+
+- name: visualvm | Cleanup temporary directory
+  file: name={{ tempdir.stdout }} state=absent
+  tags: visualvm_setup
+
+- debug: msg=" visualvm | Start visualvm {{ visualvm_base_dir }}/{{ visualvm_name }}/bin/visualvm"
+

@@ -1,0 +1,20 @@
+visualvm_enabled: yes                       # Enable module
+
+#user: 'albandri' #please override me
+user: "{{ lookup('env','USER') }}"
+visualvm_owner: "{{ user }}"
+visualvm_group: "{{ visualvm_owner }}"
+#home: '~' #please override me
+home: "{{ lookup('env','HOME') }}"
+visualvm_owner_home: "{{ home }}"
+visualvm_base_dir: "/usr/local/visualvm"
+#visualvm_home_dir: "/usr/share/visualvm"
+#visualvm_configuration: "{{ visualvm_home_dir }}/bin/visualvm.properties"
+
+visualvm_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
+
+visualvm_version: "138"
+
+visualvm_name: "visualvm_{{ visualvm_version }}"
+visualvm_archive: "{{ visualvm_name }}.zip"
+visualvm_url: "https://java.net/projects/visualvm/downloads/download/release{{ visualvm_version }}/{{ visualvm_archive }}"
