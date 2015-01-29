@@ -9,7 +9,14 @@ home: "{{ lookup('env','HOME') }}"
 visualvm_owner_home: "{{ home }}"
 visualvm_base_dir: "/usr/local/visualvm"
 #visualvm_home_dir: "/usr/share/visualvm"
-#visualvm_configuration: "{{ visualvm_home_dir }}/bin/visualvm.properties"
+visualvm_home_dir: "{{ home }}/.visualvm"
+visualvm_home_version: "1.3.8"
+visualvm_configuration: "{{ visualvm_home_dir }}/{{ visualvm_home_version }}/repository"
+visualvm_remote_hosts_enable: no
+
+visualvm_remote_hosts:
+  # Additional properties: 'serverip, servername, serverfile'.
+  - {serverip: "82.231.208.223", serverhostname: "home.nabla.mobi", servername: "albandri", serverjstatdport: "2020", serverposition: "4"}
 
 visualvm_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
 
