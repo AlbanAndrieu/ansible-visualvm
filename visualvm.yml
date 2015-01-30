@@ -1,0 +1,9 @@
+---
+- hosts: all
+  sudo: true
+  roles:
+    - { role: ./,
+        user: "root",
+        home: "/root",
+        visualvm_remote_hosts_enable: no,
+      }

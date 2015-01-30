@@ -54,6 +54,17 @@
   when: visualvm_remote_hosts_enable
   register: visualvm_configure
 
+#- name: visualvm | Configure visualvm remote hosts jmx
+#  template:
+#    src: "jmxapplication.properties.j2"
+#    dest: "{{ visualvm_configuration }}/hosts/jmxapplication.properties"
+#    owner: "{{ visualvm_owner }}"
+#    group: "{{ visualvm_group }}"
+#    mode: 0644
+#  with_items: visualvm_remote_hosts
+#  when: visualvm_remote_hosts_enable
+#  register: visualvm_configure
+
 #- name: visualvm | Ensure visualvm restarted
 #  service: name=visualvm state=restarted
 #  when: visualvm_configure.changed
