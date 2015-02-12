@@ -43,6 +43,15 @@
   when: visualvm_download.changed
   tags: visualvm_setup
 
+- name: visualvm | Create base directory
+  file:
+    dest="{{ visualvm_home_dir }}"
+    state=directory
+    owner="{{visualvm_owner}}"
+    group="{{visualvm_group}}"
+  sudo : yes
+  tags: visualvm_setup
+
 - name: visualvm | Configure visualvm remote hosts
   template:
     src: "default.properties.j2"

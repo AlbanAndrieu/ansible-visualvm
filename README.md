@@ -1,8 +1,8 @@
 ## alban.andrieu.visualvm
 
-[![Travis CI](http://img.shields.io/travis/AlbanAndrieu/ansible-visualvm.svg?style=flat)](http://travis-ci.org/AlbanAndrieu/ansible-visualvm) [![Branch](http://img.shields.io/github/tag/AlbanAndrieu/ansible-visualvm.svg?style=flat-square)](https://github.com/AlbanAndrieu/ansible-visualvm/tree/master) [![Donate](https://img.shields.io/gratipay/AlbanAndrieu.svg?style=flat)](https://www.gratipay.com/AlbanAndrieu)  [![Ansible Galaxy](http://img.shields.io/badge/galaxy-alban.andrieu.visualvm-blue.svg?style=flat)](https://galaxy.ansible.com/list#/roles/1997) [![Platforms](http://img.shields.io/badge/platforms-ubuntu-lightgrey.svg?style=flat)](#)
+[![Travis CI](http://img.shields.io/travis/AlbanAndrieu/ansible-visualvm.svg?style=flat)](http://travis-ci.org/AlbanAndrieu/ansible-visualvm) [![Branch](http://img.shields.io/github/tag/AlbanAndrieu/ansible-visualvm.svg?style=flat-square)](https://github.com/AlbanAndrieu/ansible-visualvm/tree/master) [![Donate](https://img.shields.io/gratipay/AlbanAndrieu.svg?style=flat)](https://www.gratipay.com/AlbanAndrieu)  [![Ansible Galaxy](http://img.shields.io/badge/galaxy-alban.andrieu.visualvm-blue.svg?style=flat)](https://galaxy.ansible.com/list#/roles/2731) [![Platforms](http://img.shields.io/badge/platforms-ubuntu-lightgrey.svg?style=flat)](#)
 
-Ensures that visualvm is properly installed (using `apt`) and configured
+Ensures that visualvm is properly installed and configured
 
 ### Installation
 
@@ -21,38 +21,31 @@ List of default variables available in the inventory:
 ```yaml
         visualvm_enabled: yes                       # Enable module
     
-    visualvm_home_dir: "/usr/share/visualvm"
-    visualvm_configuration: "{{ visualvm_home_dir }}/bin/visualvm.properties"
+    #user: 'albandri' #please override me
+    user: "{{ lookup('env','USER') }}"
+    visualvm_owner: "{{ user }}"
+    visualvm_group: "{{ visualvm_owner }}"
+    #home: '~' #please override me
+    home: "{{ lookup('env','HOME') }}"
+    visualvm_owner_home: "{{ home }}"
+    visualvm_base_dir: "/usr/local/visualvm"
+    #visualvm_home_dir: "/usr/share/visualvm"
+    visualvm_home_dir: "{{ home }}/.visualvm"
+    visualvm_home_version: "1.3.8"
+    visualvm_configuration: "{{ visualvm_home_dir }}/{{ visualvm_home_version }}/repository"
+    visualvm_remote_hosts_enable: no
+    
+    visualvm_remote_hosts:
+      # Additional properties: 'serverip, servername, serverfile'.
+      - {serverip: "82.231.208.223", serverhostname: "home.nabla.mobi", servername: "albandri", serverjstatdport: "2020", serverposition: "4"}
     
     visualvm_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
     
-    visualvm_plugins_version: "1.2.0"
+    visualvm_version: "138"
     
-    visualvm_plugins_standard_enabled: yes
-    visualvm_plugins_standard_archive: "visualvmPlugins-Standard-{{ visualvm_plugins_version }}.zip"
-    visualvm_plugins_standard_url: "http://visualvm-plugins.org/downloads/file/{{ visualvm_plugins_standard_archive }}"
-    
-    visualvm_plugins_extras_enabled: yes
-    visualvm_plugins_extras_archive: "visualvmPlugins-Extras-{{ visualvm_plugins_version }}.zip"
-    visualvm_plugins_extras_url: "http://visualvm-plugins.org/downloads/file/{{ visualvm_plugins_extras_archive }}"
-    
-    visualvm_plugins_extraslibs_enabled: yes
-    visualvm_plugins_extraslibs_archive: "visualvmPlugins-ExtrasLibs-{{ visualvm_plugins_version }}.zip"
-    visualvm_plugins_extraslibs_url: "http://visualvm-plugins.org/downloads/file/{{ visualvm_plugins_extraslibs_archive }}"
-    
-    visualvm_plugins_webdriver_enabled: no
-    visualvm_plugins_webdriver_archive: "visualvmPlugins-WebDriver-{{ visualvm_plugins_version }}.zip"
-    visualvm_plugins_webdriver_url: "http://visualvm-plugins.org/downloads/file/{{ visualvm_plugins_webdriver_archive }}"
-    
-    visualvm_plugins_hadoop_enabled: no
-    visualvm_plugins_hadoop_archive: "visualvmPlugins-Hadoop-{{ visualvm_plugins_version }}.zip"
-    visualvm_plugins_hadoop_url: "http://visualvm-plugins.org/downloads/file/{{ visualvm_plugins_hadoop_archive }}"
-    
-    visualvm_serveragent_version: "2.2.1"
-    
-    visualvm_serveragent_enabled: no
-    visualvm_serveragent_archive: "ServerAgent-{{ visualvm_serveragent_version }}.zip"
-    visualvm_serveragent_url: "http://visualvm-plugins.org/downloads/file/{{ visualvm_serveragent_archive }}"
+    visualvm_name: "visualvm_{{ visualvm_version }}"
+    visualvm_archive: "{{ visualvm_name }}.zip"
+    visualvm_url: "https://java.net/projects/visualvm/downloads/download/release{{ visualvm_version }}/{{ visualvm_archive }}"
 ```
 
 
