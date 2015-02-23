@@ -20,7 +20,7 @@
     state="present"
   tags: visualvm_setup
 
-#visualvm plugins standard
+#visualvm standard
 - name: visualvm | Download visualvm
   get_url:
     url="{{ visualvm_url }}"
@@ -43,7 +43,7 @@
   when: visualvm_download.changed
   tags: visualvm_setup
 
-- name: visualvm | Create base directory
+- name: visualvm | Create home directory
   file:
     dest="{{ visualvm_home_dir }}"
     state=directory
