@@ -81,6 +81,9 @@
 - name: visualvm | Cleanup temporary directory
   file: name={{ tempdir.stdout }} state=absent
   tags: visualvm_setup
-
+  changed_when: false    
+  ignore_errors: "{{ ansible_check_mode }}"    
+  become: yes
+  
 - debug: msg=" visualvm | Start visualvm {{ visualvm_base_dir }}/{{ visualvm_name }}/bin/visualvm"
 
