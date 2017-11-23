@@ -18,7 +18,8 @@ visualvm_remote_hosts:
   # Additional properties: 'serverip, servername, serverfile'.
   - {serverip: "82.231.208.223", serverhostname: "home.nabla.mobi", servername: "albandri", serverjstatdport: "2020", serverposition: "4"}
 
-visualvm_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
+#visualvm_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
+visualvm_dir_tmp: "{{ tempdir.stdout }}"
 
 visualvm_version: "138"
 
